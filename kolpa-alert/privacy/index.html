@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kolpa Alert — Privacy Policy</title>
+<style>
+  :root { color-scheme: light dark; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+    color: #1a2330;
+    background: #f6f8fb;
+    padding: 2.5rem 1.25rem 4rem;
+  }
+  @media (prefers-color-scheme: dark) {
+    body { color: #e6edf3; background: #0d1117; }
+    a { color: #79c0ff; }
+    code { background: #1f242c; }
+  }
+  main { max-width: 720px; margin: 0 auto; }
+  h1 { font-size: 1.9rem; margin: 0 0 0.25rem; }
+  h2 { font-size: 1.25rem; margin-top: 2rem; border-bottom: 1px solid rgba(128,128,128,0.3); padding-bottom: 0.25rem; }
+  h3 { font-size: 1.05rem; margin-top: 1.5rem; }
+  p { margin: 0.75rem 0; }
+  ul { padding-left: 1.25rem; }
+  li { margin: 0.35rem 0; }
+  a { color: #0550ae; }
+  code { background: #eef1f5; padding: 0.1em 0.35em; border-radius: 3px; font-size: 0.9em; }
+  .meta { color: #5b6b7f; font-size: 0.95rem; margin-top: 0.5rem; }
+  .back { display: inline-block; margin-bottom: 1.5rem; font-size: 0.9rem; }
+</style>
+</head>
+<body>
+<main>
+  <a class="back" href="/">&larr; Alittis</a>
+
+  <h1>Privacy Policy &mdash; Kolpa Alert</h1>
+  <p class="meta">
+    <strong>App:</strong> Kolpa Alert (Android applicationId: <code>si.alittis.kolpa_alert</code>)<br>
+    <strong>Publisher:</strong> Alittis<br>
+    <strong>Contact:</strong> <a href="mailto:admin@alittis.com">admin@alittis.com</a><br>
+    <strong>Effective date:</strong> April 23rd 2026<br>
+    <strong>Last updated:</strong> April 23rd 2026
+  </p>
+
+  <p>Kolpa Alert is a free mobile application that warns kayakers, canoeists, and rafters when they approach fish spawn sites along the river Kolpa in Slovenia. This policy describes what data the app accesses, why, and what happens to it.</p>
+
+  <h2>1. Summary</h2>
+  <ul>
+    <li>The app uses your device's GPS location to detect when you are approaching a known fish spawn site and to play a voice alert.</li>
+    <li>All location processing happens <strong>on your device</strong>. The app does not send your location to our servers or to any third party.</li>
+    <li>The app has no user accounts, no advertising identifiers, no analytics SDKs, and no crash reporting SDKs.</li>
+  </ul>
+
+  <h2>2. Data the app accesses</h2>
+
+  <h3>2.1 Precise device location (foreground and background)</h3>
+  <ul>
+    <li><strong>Android permissions used:</strong> <code>ACCESS_FINE_LOCATION</code>, <code>ACCESS_COARSE_LOCATION</code>, <code>ACCESS_BACKGROUND_LOCATION</code>, <code>FOREGROUND_SERVICE</code>, <code>FOREGROUND_SERVICE_LOCATION</code>, <code>WAKE_LOCK</code>.</li>
+    <li><strong>Purpose:</strong> to determine in real time how close you are to a known fish spawn site (a small polygon on the river) and to trigger a voice alert when you enter a configured warning distance.</li>
+    <li><strong>Background access:</strong> the alert must also work while the phone is locked or the app is in the background (for example while the phone is in a dry bag during a kayak trip). The app runs a persistent foreground service that keeps the alert engine active during a trip. A notification is shown whenever the foreground service is active, as required by Android.</li>
+    <li><strong>Storage:</strong> recent GPS fixes are held in device memory only for the short sliding window required by the approach-detection logic. The app does not persist your location history to local storage. The app does not transmit your location anywhere.</li>
+    <li><strong>Sharing:</strong> the app does not share your location with any third party.</li>
+  </ul>
+
+  <h3>2.2 Battery-optimization exemption request</h3>
+  <ul>
+    <li><strong>Android permission used:</strong> <code>REQUEST_IGNORE_BATTERY_OPTIMIZATIONS</code>.</li>
+    <li><strong>Purpose:</strong> Android aggressively throttles background processes to save battery. The foreground tracking service can be interrupted by battery optimizations, which would silence an alert exactly when it is most needed. The app may ask you to exempt it from battery optimizations so that the alert service is not killed in the middle of a trip.</li>
+    <li><strong>You can refuse this request</strong>; the app will still function but the alert service may be stopped by the operating system under aggressive battery-saver modes.</li>
+  </ul>
+
+  <h3>2.3 Notifications</h3>
+  <ul>
+    <li><strong>Android permission used:</strong> <code>POST_NOTIFICATIONS</code>.</li>
+    <li><strong>Purpose:</strong> to display the mandatory foreground-service notification while trip mode is active and (optionally) to surface alerts as system notifications.</li>
+    <li>The content of notifications is generated on your device. Notifications are not sent through a remote push-notification service.</li>
+  </ul>
+
+  <h3>2.4 Bundled map tiles and voice clips</h3>
+  <ul>
+    <li>The application package ships with pre-rendered offline map tiles of the Kolpa corridor (derived from ARSO cartography with permission from the project stakeholder) and with pre-recorded Slovenian and English voice alert clips.</li>
+    <li>When the bundled offline basemap is enabled (the default), no map-tile network request is made.</li>
+  </ul>
+
+  <h3>2.5 Optional online satellite basemap (ArcGIS Online)</h3>
+  <ul>
+    <li>The app provides an optional in-session toggle to switch from the bundled offline basemap to the ArcGIS Online <code>World_Imagery</code> satellite tile service.</li>
+    <li>When you enable this option, your device requests map tiles from ArcGIS Online. As a result, ArcGIS's operator (Esri) may log standard web-server metadata such as your IP address, the requested tile coordinates, the time of the request, and a user-agent string identifying this app.</li>
+    <li>The app does not send your GPS coordinates, your identity, or any personal data in these tile requests.</li>
+    <li>This option is off by default; you can keep the offline basemap selected at all times to avoid any external tile requests.</li>
+  </ul>
+
+  <h2>3. Data the app does not collect</h2>
+  <p>Kolpa Alert does not collect, process, or transmit:</p>
+  <ul>
+    <li>Your name, email, phone number, address, or any identifier of you as a person.</li>
+    <li>A location history of your trips.</li>
+    <li>Contact lists, calendars, photos, files, messages, SMS, call logs, microphone audio, or camera images.</li>
+    <li>Advertising identifiers (AAID/GAID).</li>
+    <li>Device identifiers for analytics or attribution.</li>
+  </ul>
+
+  <h2>4. Data sharing</h2>
+  <p>The app does not share any data with third parties. There are no analytics, advertising, or crash-reporting SDKs embedded in the app.</p>
+  <p>If you enable the optional online satellite basemap described in &sect;2.5, network requests for map tiles will reach the ArcGIS Online service operated by Esri. Those requests are governed by Esri's own policies.</p>
+
+  <h2>5. Children</h2>
+  <p>Kolpa Alert is not directed to children under 13. It is intended for adults paddling on the river Kolpa. The app does not knowingly collect any personal information from children.</p>
+
+  <h2>6. Security</h2>
+  <p>Because the app stores no personal data on its servers (the project operates no user-data servers), and the app transmits no user location data off-device, there is no server-side storage of user data that could be breached by a third party.</p>
+
+  <h2>7. Your choices and controls</h2>
+  <ul>
+    <li>You can deny or revoke the location permission at any time in your device settings. Without location, the alert engine cannot run.</li>
+    <li>You can deny the background-location permission and still use the app in the foreground; background alerts will not work.</li>
+    <li>You can deny the battery-optimization exemption request; the app will still function but may be stopped by the operating system under aggressive battery-saver settings.</li>
+    <li>You can uninstall the app at any time. All application data (including any locally created &ldquo;live test zone&rdquo; stored on your device) is removed when the app is uninstalled.</li>
+  </ul>
+
+  <h2>8. Changes to this policy</h2>
+  <p>We may update this policy to reflect changes in the app or in applicable law. When we do, we will change the &ldquo;Last updated&rdquo; date above. Material changes will be called out in the Play Store release notes for the version that introduces them.</p>
+
+  <h2>9. Contact</h2>
+  <p>Questions about this policy: <a href="mailto:admin@alittis.com">admin@alittis.com</a></p>
+</main>
+</body>
+</html>
