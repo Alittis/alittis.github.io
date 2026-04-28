@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="sl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Terenska beležnica — Pravilnik o zasebnosti</title>
+<style>
+  :root { color-scheme: light dark; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+    color: #1a2330;
+    background: #f6f8fb;
+    padding: 2.5rem 1.25rem 4rem;
+  }
+  @media (prefers-color-scheme: dark) {
+    body { color: #e6edf3; background: #0d1117; }
+    a { color: #79c0ff; }
+    code { background: #1f242c; }
+  }
+  main { max-width: 720px; margin: 0 auto; }
+  h1 { font-size: 1.9rem; margin: 0 0 0.25rem; }
+  h2 { font-size: 1.25rem; margin-top: 2rem; border-bottom: 1px solid rgba(128,128,128,0.3); padding-bottom: 0.25rem; }
+  h3 { font-size: 1.05rem; margin-top: 1.5rem; }
+  p { margin: 0.75rem 0; }
+  ul { padding-left: 1.25rem; }
+  li { margin: 0.35rem 0; }
+  a { color: #0550ae; }
+  code { background: #eef1f5; padding: 0.1em 0.35em; border-radius: 3px; font-size: 0.9em; }
+  .meta { color: #5b6b7f; font-size: 0.95rem; margin-top: 0.5rem; }
+  .back { display: inline-block; margin-bottom: 1.5rem; font-size: 0.9rem; }
+</style>
+</head>
+<body>
+<main>
+  <a class="back" href="/">&larr; Alittis</a>
+
+  <h1>Pravilnik o zasebnosti &mdash; Terenska beležnica</h1>
+  <p class="meta">
+    <strong>Aplikacija:</strong> Terenska beležnica (Android applicationId: <code>si.terenska.beleznica</code>)<br>
+    <strong>Izdajatelj v Trgovini Google Play:</strong> Alittis<br>
+    <strong>Kontakt razvijalca:</strong> <a href="mailto:admin@alittis.com">admin@alittis.com</a><br>
+    <strong>Upravljavec osebnih podatkov (NarcIS):</strong> Agencija Republike Slovenije za okolje (ARSO)<br>
+    <strong>Kontakt ARSO za NarcIS:</strong> <a href="mailto:narcis.arso@gov.si">narcis.arso@gov.si</a><br>
+    <strong>Začetek veljavnosti:</strong> 28. april 2026<br>
+    <strong>Zadnja sprememba:</strong> 28. april 2026
+  </p>
+
+  <p>Terenska beležnica je mobilna aplikacija za zaposlene in pooblaščene zunanje sodelavce naravovarstvenih nadzornih služb. Omogoča zajem opažanj na terenu (motnje, posegi, opazovanja) in beleženje obhodov &mdash; tj. neprekinjenih GPS-sledi terenskih obhodov &mdash; ter njihovo pošiljanje v centralno bazo NarcIS. Aplikacija ne gre v javno uporabo: do nje dostopajo samo uporabniki, ki jim je v sistemu NarcIS dodeljena vloga <em>TERENSKA-BELEZNICA</em>. Ta dokument opisuje, katere osebne podatke aplikacija obdeluje, zakaj in komu se posredujejo.</p>
+
+  <h2>1. Povzetek</h2>
+  <ul>
+    <li>Aplikacija deluje kot odjemalec sistema NarcIS, ki ga upravlja <strong>Agencija Republike Slovenije za okolje (ARSO)</strong>. ARSO je upravljavec vseh osebnih podatkov, ki jih uporabnik vnese in pošlje preko aplikacije.</li>
+    <li>Aplikacija prenaša naslednje vrste podatkov na strežnik NarcIS: e-poštni naslov uporabnika, lokacijo (GPS-koordinate) opažanj in obhodov, fotografije s kamere, prosta besedila (opis, imena opazovalcev, ukrepanje, naziv in zapiski obhoda) ter čase opazovanj.</li>
+    <li>Geslo se prenaša samo v okviru avtentikacije preko šifrirane povezave HTTPS in ni nikoli shranjeno v jasnem besedilu, ne v napravi ne na strežniku.</li>
+    <li>Aplikacija nima oglasov, analitičnih SDK-jev, beleženja zrušitev preko zunanjih storitev, niti ne uporablja oglaševalskih identifikatorjev.</li>
+  </ul>
+
+  <h2>2. Vrste podatkov, ki jih aplikacija obdeluje</h2>
+
+  <h3>2.1 Prijava: e-poštni naslov in geslo</h3>
+  <ul>
+    <li><strong>Namen:</strong> avtentikacija proti sistemu NarcIS in preverjanje, ali ima uporabnik dodeljeno vlogo <em>TERENSKA-BELEZNICA</em>.</li>
+    <li><strong>Pošiljanje:</strong> ob prijavi se par <em>e-pošta:geslo</em> kodira (Base64) in pošlje v glavi <code>X-Narcis-Auth: Basic</code> preko šifriranega protokola HTTPS na <code>https://narcis.gov.si/ords/narcis/app-auth/login</code>. Ta isti glavi se pošlje pri vsakem klicu zalednih storitev (sinhronizacija zapisov in obhodov).</li>
+    <li><strong>Hramba na strežniku:</strong> ARSO hrani uporabnikov e-poštni naslov v sistemu NarcIS in ga zabeleži kot avtorja vsakega ustvarjenega zapisa (motnje, obhoda, fotografije).</li>
+    <li><strong>Hramba v napravi:</strong> po uspešni spletni prijavi aplikacija v varnem ključavnik-pomnilniku operacijskega sistema (iOS Keychain, Android Keystore preko <code>flutter_secure_storage</code>) shrani:
+      <ul>
+        <li>e-poštni naslov (jasno besedilo);</li>
+        <li>kriptografski izvleček gesla (PBKDF2-HMAC-SHA256, 100.000 iteracij, 32-bajtna naključna sol) &mdash; jasnega gesla aplikacija nikoli ne shrani na disk;</li>
+        <li>časovni žig zadnje uspešne spletne prijave.</li>
+      </ul>
+      Izvleček omogoča prijavo brez omrežja v obdobju do 14 dni od zadnje spletne prijave (poznejši poskus prijave brez omrežja je zavrnjen, dokler se uporabnik ponovno prijavi spletno).</li>
+    <li><strong>Sinhronizacija po prijavi:</strong> dokler je uporabnik prijavljen v aktivni seji, aplikacija geslo hrani <em>samo v pomnilniku</em> &mdash; potrebno je za vsak naslednji klic do zalednih storitev (preverjanje pravice na zapisu izvaja strežnik, ne odjemalec). Ob odjavi, izhodu iz aplikacije ali odgovoru HTTP 401 se geslo iz pomnilnika izbriše in lokalni izvleček (PBKDF2) se izbriše iz varnega ključavnik-pomnilnika.</li>
+    <li><strong>Avtomatsko izpolnjevanje gesla:</strong> aplikacija ob uspešni prijavi pokliče sistemski mehanizem za izpolnjevanje gesel (Google Password Manager v Androidu, iCloud Keychain v sistemu iOS) in ponudi shranjevanje gesla. To je sistemska funkcionalnost, ki je neodvisna od aplikacije; uporabnik lahko ponudbo zavrne ali shrani.</li>
+  </ul>
+
+  <h3>2.2 Lokacija naprave (GPS)</h3>
+  <ul>
+    <li><strong>Uporabljena dovoljenja Android:</strong> <code>ACCESS_FINE_LOCATION</code>, <code>ACCESS_COARSE_LOCATION</code>, <code>FOREGROUND_SERVICE</code>, <code>FOREGROUND_SERVICE_LOCATION</code>, <code>WAKE_LOCK</code>.</li>
+    <li><strong>Aplikacija NE deklarira dovoljenja</strong> <code>ACCESS_BACKGROUND_LOCATION</code>. Lokacijska sled v ozadju se zajema samo v okviru ospredne storitve (foreground service) tipa <em>location</em>, ki teče <em>med aktivnim obhodom</em>; ko obhod ni aktiven, aplikacija ne dostopa do lokacije v ozadju.</li>
+    <li><strong>Namen:</strong> geokodiranje opažanj (zemljepisna širina/dolžina ob trenutku opazovanja), neprekinjeno beleženje sledi obhoda, prikaz uporabnikovega položaja na zemljevidu in usredinjenje karte.</li>
+    <li><strong>Pošiljanje:</strong> koordinate so sestavni del podatkov o motnji oz. obhodu, ki se pošljejo na strežnik NarcIS pri sinhronizaciji. Pri zapisih o motnjah se pošljejo: zemljepisna širina, dolžina, oznaka natančnosti (<em>Natančna</em> ali <em>Približna</em>) in čas opazovanja. Pri obhodih se pošlje celotna sled točk (zemljepisna širina, dolžina, čas zajema, ocena natančnosti v metrih) skupaj z začetnim in končnim časom obhoda.</li>
+    <li><strong>Beleženje obhoda v ospredni storitvi:</strong> ko uporabnik začne obhod, aplikacija zažene ospredno storitev tipa <em>location</em> z vidnim sistemskim obvestilom (kanal &laquo;Beleženje obhoda&raquo;). Storitev neprekinjeno bere lokacijo (filter razdalje 5&nbsp;m) in jo shranjuje v lokalni datoteki, dokler uporabnik obhoda ne zaključi ali zavrže. Točke s slabo natančnostjo (&gt; 50&nbsp;m), zastarele meritve in nerealistične hitrosti se zavrnejo.</li>
+    <li><strong>Hramba v napravi:</strong> trenutni aktivni obhod se sproti zapisuje v datoteko <code>active_walk.json</code> v zaprtem prostoru aplikacije, da se podatki ohranijo, če operacijski sistem zruši aplikacijo. Zaključeni obhodi pred sinhronizacijo so v lokalnem JSON-zapisu, dokler niso uspešno preneseni na strežnik. Lokalni zapisi se izbrišejo ob odjavi.</li>
+    <li><strong>Zadnji položaj zemljevida:</strong> da se zemljevid ob naslednjem zagonu ne odpre na privzetem prikazu Slovenije, aplikacija lokalno hrani zadnji prikazani center karte in stopnjo povečave (<code>map_view.json</code>). Ti podatki ne zapustijo naprave.</li>
+  </ul>
+
+  <h3>2.3 Fotografije in kamera</h3>
+  <ul>
+    <li><strong>Uporabljena dovoljenja Android:</strong> <code>CAMERA</code>, <code>READ_MEDIA_IMAGES</code> (Android&nbsp;13+), <code>READ_EXTERNAL_STORAGE</code> (Android&nbsp;12 in starejši).</li>
+    <li><strong>Namen:</strong> uporabnik lahko k zapisu o motnji pripne fotografijo, posneto skozi sistemski izbiralnik kamere.</li>
+    <li><strong>Stiskanje:</strong> pred shranjevanjem aplikacija fotografijo zmanjša (najdaljši rob 1600&nbsp;px, kvaliteta JPEG 85), kar zniža velikost na pribl. 200&ndash;500&nbsp;KB.</li>
+    <li><strong>Hramba v napravi:</strong> fotografija je shranjena v zaprtem prostoru aplikacije (<code>disturbance_photos/&lt;motnja_id&gt;/&lt;foto_id&gt;.jpg</code>), da preživi morebitno prekinitev sinhronizacije.</li>
+    <li><strong>Pošiljanje:</strong> pri sinhronizaciji se binarno telo fotografije naloži na strežnik NarcIS in pripne k zapisu o motnji. Strežnik fotografijo hrani kot <em>BLOB</em> v Oraclovi bazi (tabela <code>TB_MOTNJE_FOTO</code>). Fotografija je vidna samo uporabnikom, ki pripadajo isti organizaciji v sistemu NarcIS kot avtor zapisa.</li>
+    <li><strong>Najvišja velikost in vrste:</strong> sprejete vrste so <code>image/jpeg</code>, <code>image/png</code>, <code>image/webp</code>, <code>image/heic</code>; največja velikost ene fotografije je 10&nbsp;MB.</li>
+    <li>Aplikacija ne dostopa do galerije naprave: posnetke ustvarja izključno preko sistemskega izbiralnika kamere.</li>
+  </ul>
+
+  <h3>2.4 Prosto besedilo, ki ga vnese uporabnik</h3>
+  <p>Pri zapisu motnje uporabnik prostovoljno vnese: opis dogodka, ime ali imena opazovalcev (prosto besedilo), morebitno predlagano vrsto motnje in oznako ukrepanja. Pri obhodu lahko vnese naziv in zapiske. Vsi ti vnosi se v okviru sinhronizacije pošljejo na strežnik NarcIS in tam hranijo skupaj z e-poštnim naslovom uporabnika kot avtorja zapisa.</p>
+  <ul>
+    <li><strong>Imena opazovalcev:</strong> aplikacija polje obravnava kot prosto besedilo, ki ga vnese uporabnik. Prosimo uporabnike, naj v polje opazovalcev vnašajo le imena oseb, ki so seznanjene z namenom obdelave (terensko poročanje za potrebe nadzora) in se s tem strinjajo.</li>
+  </ul>
+
+  <h3>2.5 Sistemska obvestila in izjema iz optimizacije baterije</h3>
+  <ul>
+    <li><strong>Uporabljeno dovoljenje Android:</strong> <code>POST_NOTIFICATIONS</code>.</li>
+    <li><strong>Namen:</strong> prikaz obveznega sistemskega obvestila ospredne storitve med beleženjem obhoda. Vsebina obvestila je generirana v napravi; aplikacija ne uporablja tujih storitev za pošiljanje potisnih obvestil.</li>
+    <li><strong>Uporabljeno dovoljenje Android:</strong> <code>REQUEST_IGNORE_BATTERY_OPTIMIZATIONS</code>. Ob začetku obhoda lahko aplikacija odpre sistemsko pogovorno okno za izvzetje aplikacije iz agresivne optimizacije baterije. Brez izvzetja nekateri proizvajalci telefonov (npr. Samsung One UI, &laquo;Freecess&raquo;) izklopijo ospredno storitev, kar prekine beleženje sledi. Uporabnik lahko izvzetje zavrne; aplikacija deluje, vendar storitev v ozadju lahko ustavi operacijski sistem.</li>
+  </ul>
+
+  <h3>2.6 Zemljevidne ploščice</h3>
+  <ul>
+    <li>Aplikacija pridobiva ploščice osnovnega zemljevida iz <strong>OpenStreetMap</strong> (<code>tile.openstreetmap.org</code>) &mdash; privzeto.</li>
+    <li>Uporabnik lahko v aplikaciji preklopi na <strong>satelitski sloj Esri ArcGIS Online</strong> (<code>services.arcgisonline.com</code>, sloja <code>World_Imagery</code> in <code>World_Boundaries_and_Places</code>).</li>
+    <li>Pri vsakem zahtevku za ploščico ponudnik (OpenStreetMap oz. Esri) prejme naslov IP naprave, koordinate zahtevane ploščice, čas zahteve in identifikator <em>User-Agent</em> aplikacije (<code>si.terenska.beleznica</code>). Aplikacija v teh zahtevkih ne pošilja GPS-koordinat uporabnika niti njegovega e-poštnega naslova ali drugih osebnih podatkov.</li>
+    <li>Za podrobnosti glede obdelave teh metapodatkov veljajo politike posameznega ponudnika.</li>
+  </ul>
+
+  <h3>2.7 Zgodovinski zapisi (samo prikaz)</h3>
+  <ul>
+    <li>Aplikacija ima vgrajen samo-bralni zbir 703 zgodovinskih zapisov o motnjah (Notranjski regijski park, marec&ndash;avgust 2025), ki je shranjen kot statični JSON v paketu aplikacije.</li>
+    <li>Slike teh zgodovinskih zapisov se nahajajo na <code>nadzor.notranjski-park.si</code> (WordPress); aplikacija jih naloži <em>samo</em>, ko uporabnik odpre podrobnosti posameznega zapisa, in se pri tem upravitelju te spletne strani razkrije naslov IP naprave (standardni HTTP zahtevek).</li>
+    <li>Teh zapisov ni mogoče urejati, brisati, niti se ne pošiljajo nikamor.</li>
+  </ul>
+
+  <h2>3. Komu se podatki posredujejo</h2>
+  <ul>
+    <li><strong>Agencija Republike Slovenije za okolje (ARSO)</strong> &mdash; vsi podatki, ki jih uporabnik pošlje preko aplikacije (e-pošta, lokacija, fotografije, prosto besedilo, časi), se hranijo v sistemu NarcIS. ARSO je upravljavec teh podatkov.</li>
+    <li><strong>OpenStreetMap Foundation</strong> in <strong>Esri</strong> &mdash; pri zahtevkih za zemljevidne ploščice prejmeta naslov IP in podatke o zahtevku (glej &sect;&nbsp;2.6).</li>
+    <li><strong>Drugi naslovniki:</strong> aplikacija ne posreduje podatkov drugim tretjim osebam. V aplikaciji ni vgrajenih analitičnih SDK-jev, oglasov, beleženja zrušitev preko zunanjih storitev niti potisnih obvestil preko tretje storitve.</li>
+  </ul>
+
+  <h2>4. Pravna podlaga obdelave</h2>
+  <p>Obdelava poteka v okviru zakonske naloge ARSO za vodenje sistema NarcIS in podporo terenskemu nadzoru. Podrobnejši opis pravne podlage in obsega obdelave je del pravilnika o zasebnosti, ki ga vodi ARSO; za vsa vprašanja o obdelavi in uveljavljanju pravic v zvezi s podatki, shranjenimi v sistemu NarcIS, prosimo, da pišete na <a href="mailto:narcis.arso@gov.si">narcis.arso@gov.si</a>.</p>
+
+  <h2>5. Pravice posameznikov (GDPR)</h2>
+  <p>V skladu s Splošno uredbo o varstvu podatkov (GDPR) ima uporabnik kot posameznik, na katerega se nanašajo osebni podatki, naslednje pravice glede podatkov, shranjenih v sistemu NarcIS:</p>
+  <ul>
+    <li>pravico do dostopa do podatkov;</li>
+    <li>pravico do popravka netočnih podatkov;</li>
+    <li>pravico do izbrisa (&laquo;pravica do pozabe&raquo;) v okviru, ki ga dopušča zakonodaja;</li>
+    <li>pravico do omejitve obdelave;</li>
+    <li>pravico do ugovora obdelavi;</li>
+    <li>pravico do prenosljivosti podatkov;</li>
+    <li>pravico do pritožbe pri Informacijskem pooblaščencu Republike Slovenije.</li>
+  </ul>
+  <p>Zahteve naslovite na upravljavca: <a href="mailto:narcis.arso@gov.si">narcis.arso@gov.si</a>. Lokalne podatke, shranjene na vaši napravi, lahko v celoti izbrišete tako, da se v aplikaciji odjavite ali jo odstranite.</p>
+
+  <h2>6. Otroci</h2>
+  <p>Aplikacija ni namenjena javnosti in ni namenjena otrokom. Dostop je omejen na osebe, ki jih ARSO v sistemu NarcIS pooblasti za uporabo terenske beležnice.</p>
+
+  <h2>7. Varnost</h2>
+  <ul>
+    <li>Vsi klici med aplikacijo in strežnikom NarcIS potekajo preko šifrirane povezave HTTPS.</li>
+    <li>Geslo se v napravi shrani izključno v obliki kriptografskega izvlečka (PBKDF2-HMAC-SHA256, 100.000 iteracij), in to v sistemskem varnem ključavnik-pomnilniku (<code>flutter_secure_storage</code> &rarr; iOS Keychain oz. Android EncryptedSharedPreferences/Keystore).</li>
+    <li>Aplikacija po pretečenem 14-dnevnem oknu brez spletne prijave zavrne ponovno odprtje seje brez omrežja in zahteva spletno avtentikacijo.</li>
+    <li>Strežniški del (NarcIS) upravlja ARSO in je predmet varnostnih ukrepov agencije.</li>
+    <li>Aplikacija ne pošilja telemetrije, beleženja zrušitev ali drugih diagnostičnih podatkov tretjim osebam.</li>
+  </ul>
+
+  <h2>8. Hramba podatkov</h2>
+  <ul>
+    <li><strong>Strežnik (NarcIS):</strong> obdobje hrambe določa upravljavec ARSO v skladu s svojo politiko in veljavnimi predpisi.</li>
+    <li><strong>Naprava:</strong> lokalni izvleček gesla in zadnji znani položaj zemljevida obstajata, dokler se uporabnik ne odjavi ali odstrani aplikacijo. Lokalno shranjene fotografije in nesinhronizirani zapisi se izbrišejo ob uspešni sinhronizaciji oz. ob odstranitvi aplikacije.</li>
+  </ul>
+
+  <h2>9. Spremembe pravilnika</h2>
+  <p>Ta pravilnik lahko posodobimo, če se spremeni vedenje aplikacije ali predpisi. Datum &laquo;Zadnja sprememba&raquo; na vrhu strani označuje različico, ki velja. Bistvene spremembe bomo navedli v opisu različice v Trgovini Google Play.</p>
+
+  <h2>10. Kontakt</h2>
+  <ul>
+    <li>Vprašanja o tem pravilniku ali o aplikaciji: <a href="mailto:admin@alittis.com">admin@alittis.com</a></li>
+    <li>Vprašanja o obdelavi osebnih podatkov v sistemu NarcIS: <a href="mailto:narcis.arso@gov.si">narcis.arso@gov.si</a></li>
+  </ul>
+</main>
+</body>
+</html>
