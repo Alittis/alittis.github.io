@@ -44,7 +44,7 @@
     <strong>Upravljavec osebnih podatkov (NarcIS):</strong> Agencija Republike Slovenije za okolje (ARSO)<br>
     <strong>Kontakt ARSO za NarcIS:</strong> <a href="mailto:narcis.arso@gov.si">narcis.arso@gov.si</a><br>
     <strong>Začetek veljavnosti:</strong> 28. april 2026<br>
-    <strong>Zadnja sprememba:</strong> 28. april 2026
+    <strong>Zadnja sprememba:</strong> 20. maj 2026
   </p>
 
   <p>Terenska beležnica je mobilna aplikacija za zaposlene in pooblaščene zunanje sodelavce naravovarstvenih nadzornih služb. Omogoča zajem opažanj na terenu (motnje, posegi, opazovanja) in beleženje obhodov &mdash; tj. neprekinjenih GPS-sledi terenskih obhodov &mdash; ter njihovo pošiljanje v centralno bazo NarcIS. Aplikacija ne gre v javno uporabo: do nje dostopajo samo uporabniki, ki jim je v sistemu NarcIS dodeljena vloga <em>TERENSKA-BELEZNICA</em>. Ta dokument opisuje, katere osebne podatke aplikacija obdeluje, zakaj in komu se posredujejo.</p>
@@ -52,7 +52,7 @@
   <h2>1. Povzetek</h2>
   <ul>
     <li>Aplikacija deluje kot odjemalec sistema NarcIS, ki ga upravlja <strong>Agencija Republike Slovenije za okolje (ARSO)</strong>. ARSO je upravljavec vseh osebnih podatkov, ki jih uporabnik vnese in pošlje preko aplikacije.</li>
-    <li>Aplikacija prenaša naslednje vrste podatkov na strežnik NarcIS: e-poštni naslov uporabnika, lokacijo (GPS-koordinate) opažanj in obhodov, fotografije s kamere, prosta besedila (opis, imena opazovalcev, ukrepanje, naziv in zapiski obhoda) ter čase opazovanj.</li>
+    <li>Aplikacija prenaša naslednje vrste podatkov na strežnik NarcIS: e-poštni naslov uporabnika, lokacijo (GPS-koordinate) opažanj in obhodov, fotografije s kamere, prosta besedila (opis, imena opazovalcev, ukrepanje, pravna podlaga, status obravnave, predlagana vrsta motnje, naziv in zapiski obhoda) ter čase opazovanj.</li>
     <li>Geslo se prenaša samo v okviru avtentikacije preko šifrirane povezave HTTPS in ni nikoli shranjeno v jasnem besedilu, ne v napravi ne na strežniku.</li>
     <li>Aplikacija nima oglasov, analitičnih SDK-jev, beleženja zrušitev preko zunanjih storitev, niti ne uporablja oglaševalskih identifikatorjev.</li>
   </ul>
@@ -98,7 +98,7 @@
   </ul>
 
   <h3>2.4 Prosto besedilo, ki ga vnese uporabnik</h3>
-  <p>Pri zapisu motnje uporabnik prostovoljno vnese: opis dogodka, ime ali imena opazovalcev (prosto besedilo), morebitno predlagano vrsto motnje in oznako ukrepanja. Pri obhodu lahko vnese naziv in zapiske. Vsi ti vnosi se v okviru sinhronizacije pošljejo na strežnik NarcIS in tam hranijo skupaj z e-poštnim naslovom uporabnika kot avtorja zapisa.</p>
+  <p>Pri zapisu motnje uporabnik prostovoljno vnese: opis dogodka, ime ali imena opazovalcev (prosto besedilo), morebitno predlagano vrsto motnje, oznako ukrepanja, pravno podlago za ukrepanje in status obravnave. Pri obhodu lahko vnese naziv in zapiske. Vsi ti vnosi se v okviru sinhronizacije pošljejo na strežnik NarcIS in tam hranijo skupaj z e-poštnim naslovom uporabnika kot avtorja zapisa.</p>
   <ul>
     <li><strong>Imena opazovalcev:</strong> aplikacija polje obravnava kot prosto besedilo, ki ga vnese uporabnik. Prosimo uporabnike, naj v polje opazovalcev vnašajo le imena oseb, ki so seznanjene z namenom obdelave (terensko poročanje za potrebe nadzora) in se s tem strinjajo.</li>
   </ul>
