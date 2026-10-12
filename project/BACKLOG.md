@@ -15,6 +15,26 @@ question in the item body. Done items stay below for traceability.
 
 ## Open
 
+### GHP-3 🐞 The Terenska beležnica privacy policy is out of date, and the Postgres move changes it again — P1 — Doing
+
+- **Problem:** `terenska-beleznica/privacy/index.html` was last changed on 20 May 2026. Since then
+  the app has moved to token login (v1.2.0), gained record deletion, the Območja and Parcele
+  layers, place search and a web review. The page also claimed things that were never true: that
+  the app does not access the gallery, and that local photos are deleted on sync. It said nothing
+  about the EXIF data uploaded with photos. The narcis-nadzorniki NV-259 / TB-46 cutover then
+  moves the data from Oracle to the Alittis VPS (Frankfurt), which the policy has to name.
+- **Done 2026-10-12, in two versions** (every claim checked against the narcis-nadzorniki code;
+  details in TB-46, TB-49 and TB-50 there):
+  - **`main`** — today's production: token login, gallery picker, EXIF, Nominatim, GURS and NarcIS
+    WMS, the local stores, deletion, the web review and its change log, teammates' visibility. Takes
+    effect when pushed.
+  - **Branch `ghp-3-post-cutover-policy`** — the same text, plus the Postgres server, the
+    journal and backups in NarcIS, Alittis and Hostinger as recipients, and the new login path.
+    Pages serves only `main`, so the branch is not live.
+- **Open until T0:** fill in the four `[DATUM PREHODA]` placeholders on the branch, re-check §2.1,
+  §2.10 and §3 against what was built, merge to `main` and push together with the phone release.
+  Any change to `main` before then is repeated on the branch.
+
 ### GHP-2 🔧 The repo has a backlog but none of the other `project/` docs — P3 — Todo
 
 - **Problem:** `project/` holds only this file. There is no `ARCHITECTURE.md`, `DEPLOYMENT.md`,
