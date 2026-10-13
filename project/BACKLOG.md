@@ -44,6 +44,10 @@ question in the item body. Done items stay below for traceability.
   - **Branch `ghp-3-post-cutover-policy`** — the same text, plus the Postgres server, the
     journal and backups in NarcIS, Alittis and Hostinger as recipients, and the new login path.
     Pages serves only `main`, so the branch is not live.
+- **2026-10-13, after v1.12.0+22 rolled out:** narcis-nadzorniki TB-49 and TB-50 asked for this policy
+  change at release, on both versions. §1 and §2.3 now say the app strips photo metadata before saving
+  (keeping only the orientation), and that photos saved by versions before 1.12.0 may still carry it, on
+  the server too. §2.3, §5 and §8 now say logout deletes every photo on the device.
 - **Open until T0:** fill in the four `[DATUM PREHODA]` placeholders on the branch, re-check §2.1,
   §2.9 (§2.10 before GHP-4) and §3 against what was built, merge to `main` and push together with the phone release.
   Any change to `main` before then is repeated on the branch.

@@ -52,7 +52,7 @@
   <h2>1. Povzetek</h2>
   <ul>
     <li>Aplikacija deluje kot odjemalec sistema NarcIS, ki ga upravlja <strong>Agencija Republike Slovenije za okolje (ARSO)</strong>. ARSO je upravljavec vseh osebnih podatkov, ki jih uporabnik vnese in pošlje preko aplikacije.</li>
-    <li>Aplikacija prenaša naslednje vrste podatkov na strežnik NarcIS: e-poštni naslov uporabnika, lokacijo (GPS-koordinate) opažanj in obhodov, fotografije skupaj z njihovimi metapodatki EXIF (&sect;&nbsp;2.3), prosta besedila (opis, imena opazovalcev, ukrepanje, pravna podlaga, status obravnave, predlagana vrsta motnje, naziv in zapiski obhoda) ter čase opazovanj.</li>
+    <li>Aplikacija prenaša naslednje vrste podatkov na strežnik NarcIS: e-poštni naslov uporabnika, lokacijo (GPS-koordinate) opažanj in obhodov, fotografije brez metapodatkov EXIF (&sect;&nbsp;2.3), prosta besedila (opis, imena opazovalcev, ukrepanje, pravna podlaga, status obravnave, predlagana vrsta motnje, naziv in zapiski obhoda) ter čase opazovanj.</li>
     <li>Zapise o motnjah, obhode in fotografije vidijo uporabniki iz iste organizacije v sistemu NarcIS, ki imajo pravico <em>TERENSKA-BELEZNICA</em> &mdash; v aplikaciji in v spletnem pregledu zapisov (&sect;&nbsp;2.8) &mdash; skupaj z e-poštnim naslovom avtorja.</li>
     <li>Geslo se pošlje samo ob prijavi, preko šifrirane povezave HTTPS. Nato aplikacija uporablja žeton seje. Geslo ni nikoli shranjeno v jasnem besedilu, ne v napravi ne na strežniku.</li>
     <li>Aplikacija nima oglasov, analitičnih SDK-jev, beleženja zrušitev preko zunanjih storitev, niti ne uporablja oglaševalskih identifikatorjev.</li>
@@ -94,8 +94,8 @@
     <li><strong>Uporabljena dovoljenja Android:</strong> <code>CAMERA</code>, <code>READ_MEDIA_IMAGES</code> (Android&nbsp;13+), <code>READ_EXTERNAL_STORAGE</code> (Android&nbsp;12 in starejši).</li>
     <li><strong>Namen:</strong> uporabnik lahko k zapisu o motnji pripne fotografijo, ki jo posname s kamero ali izbere med obstoječimi fotografijami v napravi, obakrat preko sistemskega izbirnika. Aplikacija dobi dostop samo do izbrane fotografije.</li>
     <li><strong>Stiskanje:</strong> pred shranjevanjem aplikacija fotografijo zmanjša (širina največ 1600&nbsp;px, kakovost JPEG 85), kar zniža velikost na pribl. 200&ndash;500&nbsp;KB.</li>
-    <li><strong>Metapodatki EXIF:</strong> metapodatki, ki jih v fotografijo zapiše aplikacija kamere &mdash; npr. čas posnetka, znamka in model telefona ter, če je v kameri vklopljeno označevanje lokacije, GPS-koordinate kraja posnetka &mdash; ostanejo v fotografiji in se z njo pošljejo na strežnik. Pri fotografiji, izbrani med obstoječimi, se ti podatki nanašajo na čas in kraj, kjer je bila posneta.</li>
-    <li><strong>Hramba v napravi:</strong> fotografija je shranjena v zaprtem prostoru aplikacije (<code>disturbance_photos/&lt;motnja_id&gt;/&lt;foto_id&gt;.jpg</code>), da preživi morebitno prekinitev sinhronizacije, in ostane tam tudi po uspešnem prenosu. Fotografije k zapisom sodelavcev se prenesejo v napravo, ko uporabnik odpre podrobnosti zapisa. Ob izbrisu zapisa se izbrišejo tudi njegove fotografije. Ob odjavi se fotografije trenutno <em>ne</em> izbrišejo: ostanejo v zaprtem prostoru aplikacije, nedostopne drugim aplikacijam in v aplikaciji nevidne, dokler aplikacije ne odstranite.</li>
+    <li><strong>Metapodatki EXIF:</strong> metapodatke, ki jih v fotografijo zapiše aplikacija kamere &mdash; npr. čas posnetka, znamko in model telefona ter, če je v kameri vklopljeno označevanje lokacije, GPS-koordinate kraja posnetka &mdash; aplikacija pred shranjevanjem odstrani (ohrani le usmerjenost slike), zato se ne pošljejo na strežnik. Fotografije, ki so jih shranile različice pred 1.12.0, jih lahko še vsebujejo, tudi na strežniku.</li>
+    <li><strong>Hramba v napravi:</strong> fotografija je shranjena v zaprtem prostoru aplikacije (<code>disturbance_photos/&lt;motnja_id&gt;/&lt;foto_id&gt;.jpg</code>), da preživi morebitno prekinitev sinhronizacije, in ostane tam tudi po uspešnem prenosu. Fotografije k zapisom sodelavcev se prenesejo v napravo, ko uporabnik odpre podrobnosti zapisa. Ob izbrisu zapisa se izbrišejo tudi njegove fotografije. Ob odjavi se izbrišejo vse fotografije v napravi, lastne in fotografije sodelavcev.</li>
     <li><strong>Pošiljanje:</strong> pri sinhronizaciji se binarno telo fotografije naloži na strežnik NarcIS in pripne k zapisu o motnji. Strežnik fotografijo hrani kot <em>BLOB</em> v Oraclovi bazi (tabela <code>TB_MOTNJE_FOTO</code>). Fotografija je vidna samo uporabnikom, ki pripadajo isti organizaciji v sistemu NarcIS kot avtor zapisa.</li>
     <li><strong>Najvišja velikost in vrste:</strong> sprejete vrste so <code>image/jpeg</code>, <code>image/png</code>, <code>image/webp</code>, <code>image/heic</code>; največja velikost ene fotografije je 10&nbsp;MB.</li>
   </ul>
@@ -160,7 +160,7 @@
     <li>pravico do prenosljivosti podatkov;</li>
     <li>pravico do pritožbe pri Informacijskem pooblaščencu Republike Slovenije.</li>
   </ul>
-  <p>Zahteve naslovite na upravljavca: <a href="mailto:narcis.arso@gov.si">narcis.arso@gov.si</a>. Svoje še neobravnavane zapise lahko izbrišete tudi sami v aplikaciji (&sect;&nbsp;2.7). Z odjavo iz aplikacije izbrišete lokalno kopijo zapisov in obhodov, žeton seje in izvleček gesla; z odstranitvijo aplikacije izbrišete vse lokalne podatke, vključno s fotografijami.</p>
+  <p>Zahteve naslovite na upravljavca: <a href="mailto:narcis.arso@gov.si">narcis.arso@gov.si</a>. Svoje še neobravnavane zapise lahko izbrišete tudi sami v aplikaciji (&sect;&nbsp;2.7). Z odjavo iz aplikacije izbrišete lokalno kopijo zapisov in obhodov, fotografije, žeton seje in izvleček gesla; z odstranitvijo aplikacije izbrišete vse lokalne podatke.</p>
 
   <h2>6. Otroci</h2>
   <p>Aplikacija ni namenjena javnosti in ni namenjena otrokom. Dostop je omejen na osebe, ki jih ARSO v sistemu NarcIS pooblasti za uporabo terenske beležnice.</p>
@@ -178,7 +178,7 @@
   <h2>8. Hramba podatkov</h2>
   <ul>
     <li><strong>Strežnik (NarcIS):</strong> obdobje hrambe določa upravljavec ARSO v skladu s svojo politiko in veljavnimi predpisi. Žeton seje poteče po 30 dneh brez uporabe.</li>
-    <li><strong>Naprava:</strong> žeton seje, izvleček gesla in lokalna kopija zapisov ter obhodov obstajajo, dokler se uporabnik ne odjavi ali odstrani aplikacije. Nastavitve zemljevida in fotografije ostanejo do odstranitve aplikacije; fotografije posameznega zapisa se izbrišejo že ob izbrisu zapisa (&sect;&nbsp;2.3).</li>
+    <li><strong>Naprava:</strong> žeton seje, izvleček gesla, lokalna kopija zapisov ter obhodov in fotografije obstajajo, dokler se uporabnik ne odjavi ali odstrani aplikacije; fotografije posameznega zapisa se izbrišejo že ob izbrisu zapisa (&sect;&nbsp;2.3). Nastavitve zemljevida ostanejo do odstranitve aplikacije.</li>
   </ul>
 
   <h2>9. Spremembe pravilnika</h2>
