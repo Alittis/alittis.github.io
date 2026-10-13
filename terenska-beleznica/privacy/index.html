@@ -36,7 +36,7 @@
 <!--
   STAGED FOR THE NV-259 / TB-46 CUTOVER. Publish only at T0, together with the phone release.
   Before publishing: replace every [DATUM PREHODA] with the cutover date, and re-check §2.1,
-  §2.10 and §3 against what was actually built (API path, journal interval, backup schedule).
+  §2.9 and §3 against what was actually built (API path, journal interval, backup schedule).
 -->
 <main>
   <a class="back" href="/">&larr; Alittis</a>
@@ -57,9 +57,9 @@
 
   <h2>1. Povzetek</h2>
   <ul>
-    <li>Upravljavec vseh osebnih podatkov, ki jih uporabnik vnese in pošlje preko aplikacije, je <strong>Agencija Republike Slovenije za okolje (ARSO)</strong>. Od [DATUM PREHODA] jih hrani <strong>strežnik terenske beležnice</strong>, ki ga za ARSO upravlja Alittis v podatkovnem centru v Frankfurtu (Nemčija, EU). Kopija vsake spremembe in varnostne kopije se hranijo v sistemu NarcIS (&sect;&nbsp;2.10).</li>
+    <li>Upravljavec vseh osebnih podatkov, ki jih uporabnik vnese in pošlje preko aplikacije, je <strong>Agencija Republike Slovenije za okolje (ARSO)</strong>. Od [DATUM PREHODA] jih hrani <strong>strežnik terenske beležnice</strong>, ki ga za ARSO upravlja Alittis v podatkovnem centru v Frankfurtu (Nemčija, EU). Kopija vsake spremembe in varnostne kopije se hranijo v sistemu NarcIS (&sect;&nbsp;2.9).</li>
     <li>Aplikacija prenaša naslednje vrste podatkov na strežnik terenske beležnice: e-poštni naslov uporabnika, lokacijo (GPS-koordinate) opažanj in obhodov, fotografije skupaj z njihovimi metapodatki EXIF (&sect;&nbsp;2.3), prosta besedila (opis, imena opazovalcev, ukrepanje, pravna podlaga, status obravnave, predlagana vrsta motnje, naziv in zapiski obhoda) ter čase opazovanj.</li>
-    <li>Zapise o motnjah, obhode in fotografije vidijo uporabniki iz iste organizacije v sistemu NarcIS, ki imajo pravico <em>TERENSKA-BELEZNICA</em> &mdash; v aplikaciji in v spletnem pregledu zapisov (&sect;&nbsp;2.9) &mdash; skupaj z e-poštnim naslovom avtorja.</li>
+    <li>Zapise o motnjah, obhode in fotografije vidijo uporabniki iz iste organizacije v sistemu NarcIS, ki imajo pravico <em>TERENSKA-BELEZNICA</em> &mdash; v aplikaciji in v spletnem pregledu zapisov (&sect;&nbsp;2.8) &mdash; skupaj z e-poštnim naslovom avtorja.</li>
     <li>Geslo se pošlje samo ob prijavi, preko šifrirane povezave HTTPS, in ga preveri sistem NarcIS. Nato aplikacija uporablja žeton seje. Geslo ni nikoli shranjeno v jasnem besedilu, ne v napravi ne na strežniku.</li>
     <li>Aplikacija nima oglasov, analitičnih SDK-jev, beleženja zrušitev preko zunanjih storitev, niti ne uporablja oglaševalskih identifikatorjev.</li>
   </ul>
@@ -102,7 +102,7 @@
     <li><strong>Stiskanje:</strong> pred shranjevanjem aplikacija fotografijo zmanjša (širina največ 1600&nbsp;px, kakovost JPEG 85), kar zniža velikost na pribl. 200&ndash;500&nbsp;KB.</li>
     <li><strong>Metapodatki EXIF:</strong> metapodatki, ki jih v fotografijo zapiše aplikacija kamere &mdash; npr. čas posnetka, znamka in model telefona ter, če je v kameri vklopljeno označevanje lokacije, GPS-koordinate kraja posnetka &mdash; ostanejo v fotografiji in se z njo pošljejo na strežnik. Pri fotografiji, izbrani med obstoječimi, se ti podatki nanašajo na čas in kraj, kjer je bila posneta.</li>
     <li><strong>Hramba v napravi:</strong> fotografija je shranjena v zaprtem prostoru aplikacije (<code>disturbance_photos/&lt;motnja_id&gt;/&lt;foto_id&gt;.jpg</code>), da preživi morebitno prekinitev sinhronizacije, in ostane tam tudi po uspešnem prenosu. Fotografije k zapisom sodelavcev se prenesejo v napravo, ko uporabnik odpre podrobnosti zapisa. Ob izbrisu zapisa se izbrišejo tudi njegove fotografije. Ob odjavi se fotografije trenutno <em>ne</em> izbrišejo: ostanejo v zaprtem prostoru aplikacije, nedostopne drugim aplikacijam in v aplikaciji nevidne, dokler aplikacije ne odstranite.</li>
-    <li><strong>Pošiljanje:</strong> pri sinhronizaciji se binarno telo fotografije naloži na strežnik terenske beležnice in pripne k zapisu o motnji. Strežnik fotografijo hrani v podatkovni bazi PostgreSQL; varnostne kopije s fotografijami se hranijo v sistemu NarcIS (&sect;&nbsp;2.10). Fotografija je vidna samo uporabnikom, ki pripadajo isti organizaciji v sistemu NarcIS kot avtor zapisa.</li>
+    <li><strong>Pošiljanje:</strong> pri sinhronizaciji se binarno telo fotografije naloži na strežnik terenske beležnice in pripne k zapisu o motnji. Strežnik fotografijo hrani v podatkovni bazi PostgreSQL; varnostne kopije s fotografijami se hranijo v sistemu NarcIS (&sect;&nbsp;2.9). Fotografija je vidna samo uporabnikom, ki pripadajo isti organizaciji v sistemu NarcIS kot avtor zapisa.</li>
     <li><strong>Najvišja velikost in vrste:</strong> sprejete vrste so <code>image/jpeg</code>, <code>image/png</code>, <code>image/webp</code>, <code>image/heic</code>; največja velikost ene fotografije je 10&nbsp;MB.</li>
   </ul>
 
@@ -129,28 +129,21 @@
     <li>Za podrobnosti glede obdelave teh metapodatkov veljajo politike posameznega ponudnika.</li>
   </ul>
 
-  <h3>2.7 Zgodovinski zapisi (samo prikaz)</h3>
-  <ul>
-    <li>Aplikacija ima vgrajen samo-bralni zbir 703 zgodovinskih zapisov o motnjah (Notranjski regijski park, marec&ndash;avgust 2025), ki je shranjen kot statični JSON v paketu aplikacije.</li>
-    <li>Slike teh zgodovinskih zapisov se nahajajo na <code>nadzor.notranjski-park.si</code> (WordPress); aplikacija jih naloži <em>samo</em>, ko uporabnik odpre podrobnosti posameznega zapisa, in se pri tem upravitelju te spletne strani razkrije naslov IP naprave (standardni HTTP zahtevek).</li>
-    <li>Teh zapisov ni mogoče urejati, brisati, niti se ne pošiljajo nikamor.</li>
-  </ul>
-
-  <h3>2.8 Brisanje zapisov v aplikaciji</h3>
+  <h3>2.7 Brisanje zapisov v aplikaciji</h3>
   <ul>
     <li>Uporabnik lahko v aplikaciji izbriše svoj zapis o motnji, dokler ta ni obravnavan (dokler ni zabeležena odločitev o obravnavi in je status <em>Odprto</em>).</li>
-    <li>Zahteva za izbris se pošlje na strežnik terenske beležnice; brez omrežja se pošlje ob naslednji sinhronizaciji. Strežnik izbriše zapis skupaj z vrstami motnje, opazovalci in fotografijami; aplikacija izbriše njegovo lokalno kopijo in fotografije. Kopije, ki so že v sistemu NarcIS (dnevnik sprememb in varnostne kopije, &sect;&nbsp;2.10), se hranijo v skladu s politiko hrambe ARSO.</li>
+    <li>Zahteva za izbris se pošlje na strežnik terenske beležnice; brez omrežja se pošlje ob naslednji sinhronizaciji. Strežnik izbriše zapis skupaj z vrstami motnje, opazovalci in fotografijami; aplikacija izbriše njegovo lokalno kopijo in fotografije. Kopije, ki so že v sistemu NarcIS (dnevnik sprememb in varnostne kopije, &sect;&nbsp;2.9), se hranijo v skladu s politiko hrambe ARSO.</li>
   </ul>
 
-  <h3>2.9 Spletni pregled zapisov</h3>
+  <h3>2.8 Spletni pregled zapisov</h3>
   <ul>
     <li>Zapise, ki jih pošljete, lahko v spletnem vmesniku <em>Terenska beležnica</em> na naslovu <code>https://narcis.alittis.com</code> pregledujejo uporabniki iz iste organizacije s pravico <em>TERENSKA-BELEZNICA</em>; seznam zapisov lahko tudi izvozijo v datoteko Excel.</li>
     <li>Avtor zapisa (in nadzornik s posebno pravico) lahko zapis tam ureja. Pooblaščeni uporabniki tam vnesejo odločitev o obravnavi: status, kdo in kdaj je odločil, ter uradno opombo. Status ter kdo in kdaj je odločil, aplikacija prikaže pri zapisu.</li>
     <li>Vsaka sprememba v spletnem vmesniku se zabeleži v dnevnik sprememb (kdo, kdaj in prejšnje vrednosti zapisa); dnevnik se ohrani tudi po izbrisu zapisa.</li>
-    <li>Spletni vmesnik razvija in upravlja Alittis. Podatke bere iz baze strežnika terenske beležnice in jih vanjo zapisuje (&sect;&nbsp;2.10).</li>
+    <li>Spletni vmesnik razvija in upravlja Alittis. Podatke bere iz baze strežnika terenske beležnice in jih vanjo zapisuje (&sect;&nbsp;2.9).</li>
   </ul>
 
-  <h3>2.10 Kje se podatki hranijo</h3>
+  <h3>2.9 Kje se podatki hranijo</h3>
   <ul>
     <li><strong>Strežnik terenske beležnice:</strong> zapisi o motnjah, obhodi in fotografije se hranijo v podatkovni bazi PostgreSQL na strežniku, ki ga za ARSO upravlja Alittis. Strežnik gostuje pri ponudniku Hostinger v podatkovnem centru v Frankfurtu (Nemčija, EU). Aplikacija in spletni vmesnik do njega dostopata na naslovu <code>https://narcis.alittis.com</code>.</li>
     <li><strong>Kopija v sistemu NarcIS:</strong> vsaka sprememba zapisov in obhodov (brez fotografij) se praviloma v 15 minutah prepiše v dnevnik v sistemu NarcIS, ki ga upravlja ARSO.</li>
@@ -161,12 +154,11 @@
 
   <h2>3. Komu se podatki posredujejo</h2>
   <ul>
-    <li><strong>Agencija Republike Slovenije za okolje (ARSO)</strong> &mdash; upravljavec vseh podatkov, ki jih uporabnik pošlje preko aplikacije. V sistemu NarcIS se hranijo uporabniški račun, kopija vsake spremembe in varnostne kopije (&sect;&nbsp;2.10).</li>
-    <li><strong>Alittis</strong> &mdash; razvijalec aplikacije, ki za ARSO upravlja strežnik terenske beležnice in spletni pregled zapisov; na tem strežniku se hranijo vsi podatki, ki jih uporabnik pošlje preko aplikacije (&sect;&nbsp;2.10).</li>
+    <li><strong>Agencija Republike Slovenije za okolje (ARSO)</strong> &mdash; upravljavec vseh podatkov, ki jih uporabnik pošlje preko aplikacije. V sistemu NarcIS se hranijo uporabniški račun, kopija vsake spremembe in varnostne kopije (&sect;&nbsp;2.9).</li>
+    <li><strong>Alittis</strong> &mdash; razvijalec aplikacije, ki za ARSO upravlja strežnik terenske beležnice in spletni pregled zapisov; na tem strežniku se hranijo vsi podatki, ki jih uporabnik pošlje preko aplikacije (&sect;&nbsp;2.9).</li>
     <li><strong>Hostinger</strong> &mdash; ponudnik gostovanja strežnika terenske beležnice (podatkovni center v Frankfurtu, Nemčija, EU).</li>
-    <li><strong>Uporabniki iz iste organizacije</strong> s pravico <em>TERENSKA-BELEZNICA</em> &mdash; vidijo zapise, obhode in fotografije skupaj z e-poštnim naslovom avtorja, v aplikaciji in v spletnem pregledu (&sect;&nbsp;2.9).</li>
+    <li><strong>Uporabniki iz iste organizacije</strong> s pravico <em>TERENSKA-BELEZNICA</em> &mdash; vidijo zapise, obhode in fotografije skupaj z e-poštnim naslovom avtorja, v aplikaciji in v spletnem pregledu (&sect;&nbsp;2.8).</li>
     <li><strong>OpenStreetMap Foundation</strong> (ploščice in iskanje krajev), <strong>Esri</strong> (satelitski sloj) in <strong>Geodetska uprava Republike Slovenije</strong> (sloj parcel) &mdash; prejmejo naslov IP in podatke o zahtevku (glej &sect;&nbsp;2.6).</li>
-    <li><strong>Upravitelj spletne strani <code>nadzor.notranjski-park.si</code></strong> &mdash; prejme naslov IP, ko uporabnik odpre sliko zgodovinskega zapisa (&sect;&nbsp;2.7).</li>
     <li><strong>Drugi naslovniki:</strong> aplikacija ne posreduje podatkov drugim tretjim osebam. V aplikaciji ni vgrajenih analitičnih SDK-jev, oglasov, beleženja zrušitev preko zunanjih storitev niti potisnih obvestil preko tretje storitve.</li>
   </ul>
 
@@ -184,7 +176,7 @@
     <li>pravico do prenosljivosti podatkov;</li>
     <li>pravico do pritožbe pri Informacijskem pooblaščencu Republike Slovenije.</li>
   </ul>
-  <p>Zahteve naslovite na upravljavca: <a href="mailto:narcis.arso@gov.si">narcis.arso@gov.si</a>. Svoje še neobravnavane zapise lahko izbrišete tudi sami v aplikaciji (&sect;&nbsp;2.8). Z odjavo iz aplikacije izbrišete lokalno kopijo zapisov in obhodov, žeton seje in izvleček gesla; z odstranitvijo aplikacije izbrišete vse lokalne podatke, vključno s fotografijami.</p>
+  <p>Zahteve naslovite na upravljavca: <a href="mailto:narcis.arso@gov.si">narcis.arso@gov.si</a>. Svoje še neobravnavane zapise lahko izbrišete tudi sami v aplikaciji (&sect;&nbsp;2.7). Z odjavo iz aplikacije izbrišete lokalno kopijo zapisov in obhodov, žeton seje in izvleček gesla; z odstranitvijo aplikacije izbrišete vse lokalne podatke, vključno s fotografijami.</p>
 
   <h2>6. Otroci</h2>
   <p>Aplikacija ni namenjena javnosti in ni namenjena otrokom. Dostop je omejen na osebe, ki jih ARSO v sistemu NarcIS pooblasti za uporabo terenske beležnice.</p>
