@@ -15,6 +15,19 @@ question in the item body. Done items stay below for traceability.
 
 ## Open
 
+### GHP-4 🐞 The Terenska beležnica policy describes historical records the app no longer shows — P2 — Done
+
+- **Problem:** §2.7 *Zgodovinski zapisi* said the app bundles 703 Notranjski park records and loads
+  their photos from `nadzor.notranjski-park.si` when one is opened. §3 listed that site's operator as
+  a recipient. The overlay had been hidden since 2026-05-22, when the records moved into `TB_MOTNJE`,
+  so no build since then could open one. narcis-nadzorniki TB-23 (2026-10-13) removed the code and
+  the asset.
+- **Done 2026-10-13 (owner's call), on both versions:** §2.7 and the §3 line removed, §2.8–§2.10
+  renumbered down by one, and every `&sect;` reference remapped. On `main`, *Zadnja sprememba* is
+  13 October 2026. On `ghp-3-post-cutover-policy`, the pre-publish comment now names §2.9.
+- **Checked:** the headings run without gaps and every `&sect;` reference names an existing heading.
+  Neither version mentions *zgodovinsk*, *Notranjsk* or *WordPress* any more.
+
 ### GHP-3 🐞 The Terenska beležnica privacy policy is out of date, and the Postgres move changes it again — P1 — Doing
 
 - **Problem:** `terenska-beleznica/privacy/index.html` was last changed on 20 May 2026. Since then
@@ -32,7 +45,7 @@ question in the item body. Done items stay below for traceability.
     journal and backups in NarcIS, Alittis and Hostinger as recipients, and the new login path.
     Pages serves only `main`, so the branch is not live.
 - **Open until T0:** fill in the four `[DATUM PREHODA]` placeholders on the branch, re-check §2.1,
-  §2.10 and §3 against what was built, merge to `main` and push together with the phone release.
+  §2.9 (§2.10 before GHP-4) and §3 against what was built, merge to `main` and push together with the phone release.
   Any change to `main` before then is repeated on the branch.
 
 ### GHP-2 🔧 The repo has a backlog but none of the other `project/` docs — P3 — Todo

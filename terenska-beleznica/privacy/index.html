@@ -44,7 +44,7 @@
     <strong>Upravljavec osebnih podatkov (NarcIS):</strong> Agencija Republike Slovenije za okolje (ARSO)<br>
     <strong>Kontakt ARSO za NarcIS:</strong> <a href="mailto:narcis.arso@gov.si">narcis.arso@gov.si</a><br>
     <strong>Začetek veljavnosti:</strong> 28. april 2026<br>
-    <strong>Zadnja sprememba:</strong> 12. oktober 2026
+    <strong>Zadnja sprememba:</strong> 13. oktober 2026
   </p>
 
   <p>Terenska beležnica je mobilna aplikacija za zaposlene in pooblaščene zunanje sodelavce naravovarstvenih nadzornih služb. Omogoča zajem opažanj na terenu (motnje, posegi, opazovanja) in beleženje obhodov &mdash; tj. neprekinjenih GPS-sledi terenskih obhodov &mdash; ter njihovo pošiljanje v centralno bazo NarcIS. Aplikacija ni namenjena javni uporabi: do nje dostopajo samo uporabniki, ki jim je v sistemu NarcIS dodeljena pravica <em>TERENSKA-BELEZNICA</em>. Ta dokument opisuje, katere osebne podatke aplikacija obdeluje, zakaj in komu se posredujejo.</p>
@@ -53,7 +53,7 @@
   <ul>
     <li>Aplikacija deluje kot odjemalec sistema NarcIS, ki ga upravlja <strong>Agencija Republike Slovenije za okolje (ARSO)</strong>. ARSO je upravljavec vseh osebnih podatkov, ki jih uporabnik vnese in pošlje preko aplikacije.</li>
     <li>Aplikacija prenaša naslednje vrste podatkov na strežnik NarcIS: e-poštni naslov uporabnika, lokacijo (GPS-koordinate) opažanj in obhodov, fotografije skupaj z njihovimi metapodatki EXIF (&sect;&nbsp;2.3), prosta besedila (opis, imena opazovalcev, ukrepanje, pravna podlaga, status obravnave, predlagana vrsta motnje, naziv in zapiski obhoda) ter čase opazovanj.</li>
-    <li>Zapise o motnjah, obhode in fotografije vidijo uporabniki iz iste organizacije v sistemu NarcIS, ki imajo pravico <em>TERENSKA-BELEZNICA</em> &mdash; v aplikaciji in v spletnem pregledu zapisov (&sect;&nbsp;2.9) &mdash; skupaj z e-poštnim naslovom avtorja.</li>
+    <li>Zapise o motnjah, obhode in fotografije vidijo uporabniki iz iste organizacije v sistemu NarcIS, ki imajo pravico <em>TERENSKA-BELEZNICA</em> &mdash; v aplikaciji in v spletnem pregledu zapisov (&sect;&nbsp;2.8) &mdash; skupaj z e-poštnim naslovom avtorja.</li>
     <li>Geslo se pošlje samo ob prijavi, preko šifrirane povezave HTTPS. Nato aplikacija uporablja žeton seje. Geslo ni nikoli shranjeno v jasnem besedilu, ne v napravi ne na strežniku.</li>
     <li>Aplikacija nima oglasov, analitičnih SDK-jev, beleženja zrušitev preko zunanjih storitev, niti ne uporablja oglaševalskih identifikatorjev.</li>
   </ul>
@@ -123,20 +123,13 @@
     <li>Za podrobnosti glede obdelave teh metapodatkov veljajo politike posameznega ponudnika.</li>
   </ul>
 
-  <h3>2.7 Zgodovinski zapisi (samo prikaz)</h3>
-  <ul>
-    <li>Aplikacija ima vgrajen samo-bralni zbir 703 zgodovinskih zapisov o motnjah (Notranjski regijski park, marec&ndash;avgust 2025), ki je shranjen kot statični JSON v paketu aplikacije.</li>
-    <li>Slike teh zgodovinskih zapisov se nahajajo na <code>nadzor.notranjski-park.si</code> (WordPress); aplikacija jih naloži <em>samo</em>, ko uporabnik odpre podrobnosti posameznega zapisa, in se pri tem upravitelju te spletne strani razkrije naslov IP naprave (standardni HTTP zahtevek).</li>
-    <li>Teh zapisov ni mogoče urejati, brisati, niti se ne pošiljajo nikamor.</li>
-  </ul>
-
-  <h3>2.8 Brisanje zapisov v aplikaciji</h3>
+  <h3>2.7 Brisanje zapisov v aplikaciji</h3>
   <ul>
     <li>Uporabnik lahko v aplikaciji izbriše svoj zapis o motnji, dokler ta ni obravnavan (dokler ni zabeležena odločitev o obravnavi in je status <em>Odprto</em>).</li>
     <li>Zahteva za izbris se pošlje na strežnik NarcIS; brez omrežja se pošlje ob naslednji sinhronizaciji. Strežnik izbriše zapis skupaj z vrstami motnje, opazovalci in fotografijami; aplikacija izbriše njegovo lokalno kopijo in fotografije.</li>
   </ul>
 
-  <h3>2.9 Spletni pregled zapisov</h3>
+  <h3>2.8 Spletni pregled zapisov</h3>
   <ul>
     <li>Zapise, ki jih pošljete, lahko v spletnem vmesniku <em>Terenska beležnica</em> na naslovu <code>https://narcis.alittis.com</code> pregledujejo uporabniki iz iste organizacije s pravico <em>TERENSKA-BELEZNICA</em>; seznam zapisov lahko tudi izvozijo v datoteko Excel.</li>
     <li>Avtor zapisa (in nadzornik s posebno pravico) lahko zapis tam ureja. Pooblaščeni uporabniki tam vnesejo odločitev o obravnavi: status, kdo in kdaj je odločil, ter uradno opombo. Status ter kdo in kdaj je odločil, aplikacija prikaže pri zapisu.</li>
@@ -147,10 +140,9 @@
   <h2>3. Komu se podatki posredujejo</h2>
   <ul>
     <li><strong>Agencija Republike Slovenije za okolje (ARSO)</strong> &mdash; vsi podatki, ki jih uporabnik pošlje preko aplikacije (e-pošta, lokacija, fotografije, prosto besedilo, časi), se hranijo v sistemu NarcIS. ARSO je upravljavec teh podatkov.</li>
-    <li><strong>Uporabniki iz iste organizacije</strong> s pravico <em>TERENSKA-BELEZNICA</em> &mdash; vidijo zapise, obhode in fotografije skupaj z e-poštnim naslovom avtorja, v aplikaciji in v spletnem pregledu (&sect;&nbsp;2.9).</li>
-    <li><strong>Alittis</strong> &mdash; razvijalec aplikacije in upravljavec spletnega pregleda zapisov; pri uporabi spletnega pregleda podatki potujejo preko strežnika Alittis pri ponudniku <strong>Hostinger</strong> (Frankfurt, Nemčija, EU) (&sect;&nbsp;2.9).</li>
+    <li><strong>Uporabniki iz iste organizacije</strong> s pravico <em>TERENSKA-BELEZNICA</em> &mdash; vidijo zapise, obhode in fotografije skupaj z e-poštnim naslovom avtorja, v aplikaciji in v spletnem pregledu (&sect;&nbsp;2.8).</li>
+    <li><strong>Alittis</strong> &mdash; razvijalec aplikacije in upravljavec spletnega pregleda zapisov; pri uporabi spletnega pregleda podatki potujejo preko strežnika Alittis pri ponudniku <strong>Hostinger</strong> (Frankfurt, Nemčija, EU) (&sect;&nbsp;2.8).</li>
     <li><strong>OpenStreetMap Foundation</strong> (ploščice in iskanje krajev), <strong>Esri</strong> (satelitski sloj) in <strong>Geodetska uprava Republike Slovenije</strong> (sloj parcel) &mdash; prejmejo naslov IP in podatke o zahtevku (glej &sect;&nbsp;2.6).</li>
-    <li><strong>Upravitelj spletne strani <code>nadzor.notranjski-park.si</code></strong> &mdash; prejme naslov IP, ko uporabnik odpre sliko zgodovinskega zapisa (&sect;&nbsp;2.7).</li>
     <li><strong>Drugi naslovniki:</strong> aplikacija ne posreduje podatkov drugim tretjim osebam. V aplikaciji ni vgrajenih analitičnih SDK-jev, oglasov, beleženja zrušitev preko zunanjih storitev niti potisnih obvestil preko tretje storitve.</li>
   </ul>
 
@@ -168,7 +160,7 @@
     <li>pravico do prenosljivosti podatkov;</li>
     <li>pravico do pritožbe pri Informacijskem pooblaščencu Republike Slovenije.</li>
   </ul>
-  <p>Zahteve naslovite na upravljavca: <a href="mailto:narcis.arso@gov.si">narcis.arso@gov.si</a>. Svoje še neobravnavane zapise lahko izbrišete tudi sami v aplikaciji (&sect;&nbsp;2.8). Z odjavo iz aplikacije izbrišete lokalno kopijo zapisov in obhodov, žeton seje in izvleček gesla; z odstranitvijo aplikacije izbrišete vse lokalne podatke, vključno s fotografijami.</p>
+  <p>Zahteve naslovite na upravljavca: <a href="mailto:narcis.arso@gov.si">narcis.arso@gov.si</a>. Svoje še neobravnavane zapise lahko izbrišete tudi sami v aplikaciji (&sect;&nbsp;2.7). Z odjavo iz aplikacije izbrišete lokalno kopijo zapisov in obhodov, žeton seje in izvleček gesla; z odstranitvijo aplikacije izbrišete vse lokalne podatke, vključno s fotografijami.</p>
 
   <h2>6. Otroci</h2>
   <p>Aplikacija ni namenjena javnosti in ni namenjena otrokom. Dostop je omejen na osebe, ki jih ARSO v sistemu NarcIS pooblasti za uporabo terenske beležnice.</p>
