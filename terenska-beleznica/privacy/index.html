@@ -50,14 +50,14 @@
     <strong>Kontakt ARSO za NarcIS:</strong> <a href="mailto:narcis.arso@gov.si">narcis.arso@gov.si</a><br>
     <strong>Strežnik terenske beležnice:</strong> upravlja ga Alittis za ARSO; podatkovni center v Frankfurtu (Nemčija, EU)<br>
     <strong>Začetek veljavnosti:</strong> 28. april 2026<br>
-    <strong>Zadnja sprememba:</strong> [DATUM PREHODA]
+    <strong>Zadnja sprememba:</strong> 15. oktober 2026
   </p>
 
   <p>Terenska beležnica je mobilna aplikacija za zaposlene in pooblaščene zunanje sodelavce naravovarstvenih nadzornih služb. Omogoča zajem opažanj na terenu (motnje, posegi, opazovanja) in beleženje obhodov &mdash; tj. neprekinjenih GPS-sledi terenskih obhodov &mdash; ter njihovo pošiljanje na strežnik terenske beležnice, ki ga za ARSO upravlja Alittis, s kopijo v sistemu NarcIS. Aplikacija ni namenjena javni uporabi: do nje dostopajo samo uporabniki, ki jim je v sistemu NarcIS dodeljena pravica <em>TERENSKA-BELEZNICA</em>. Ta dokument opisuje, katere osebne podatke aplikacija obdeluje, zakaj in komu se posredujejo.</p>
 
   <h2>1. Povzetek</h2>
   <ul>
-    <li>Upravljavec vseh osebnih podatkov, ki jih uporabnik vnese in pošlje preko aplikacije, je <strong>Agencija Republike Slovenije za okolje (ARSO)</strong>. Od [DATUM PREHODA] jih hrani <strong>strežnik terenske beležnice</strong>, ki ga za ARSO upravlja Alittis v podatkovnem centru v Frankfurtu (Nemčija, EU). Kopija vsake spremembe in varnostne kopije se hranijo v sistemu NarcIS (&sect;&nbsp;2.9).</li>
+    <li>Upravljavec vseh osebnih podatkov, ki jih uporabnik vnese in pošlje preko aplikacije, je <strong>Agencija Republike Slovenije za okolje (ARSO)</strong>. Od 15. oktobra 2026 jih hrani <strong>strežnik terenske beležnice</strong>, ki ga za ARSO upravlja Alittis v podatkovnem centru v Frankfurtu (Nemčija, EU). Kopija vsake spremembe in varnostne kopije se hranijo v sistemu NarcIS (&sect;&nbsp;2.9).</li>
     <li>Aplikacija prenaša naslednje vrste podatkov na strežnik terenske beležnice: e-poštni naslov uporabnika, lokacijo (GPS-koordinate) opažanj in obhodov, fotografije brez metapodatkov EXIF (&sect;&nbsp;2.3), prosta besedila (opis, imena opazovalcev, ukrepanje, pravna podlaga, status obravnave, predlagana vrsta motnje, naziv in zapiski obhoda) ter čase opazovanj.</li>
     <li>Zapise o motnjah, obhode in fotografije vidijo uporabniki iz iste organizacije v sistemu NarcIS, ki imajo pravico <em>TERENSKA-BELEZNICA</em> &mdash; v aplikaciji in v spletnem pregledu zapisov (&sect;&nbsp;2.8) &mdash; skupaj z e-poštnim naslovom avtorja.</li>
     <li>Geslo se pošlje samo ob prijavi, preko šifrirane povezave HTTPS, in ga preveri sistem NarcIS. Nato aplikacija uporablja žeton seje. Geslo ni nikoli shranjeno v jasnem besedilu, ne v napravi ne na strežniku.</li>
@@ -148,7 +148,7 @@
     <li><strong>Strežnik terenske beležnice:</strong> zapisi o motnjah, obhodi in fotografije se hranijo v podatkovni bazi PostgreSQL na strežniku, ki ga za ARSO upravlja Alittis. Strežnik gostuje pri ponudniku Hostinger v podatkovnem centru v Frankfurtu (Nemčija, EU). Aplikacija in spletni vmesnik do njega dostopata na naslovu <code>https://narcis.alittis.com</code>.</li>
     <li><strong>Kopija v sistemu NarcIS:</strong> vsaka sprememba zapisov in obhodov (brez fotografij) se praviloma v 15 minutah prepiše v dnevnik v sistemu NarcIS, ki ga upravlja ARSO.</li>
     <li><strong>Varnostne kopije:</strong> vsake tri ure se izdela varnostna kopija zapisov in obhodov, vsaka nova fotografija pa se ob prvi naslednji varnostni kopiji enkrat kopira v sistem NarcIS. Varnostne kopije se hranijo v sistemu NarcIS.</li>
-    <li><strong>Zapisi, obhodi in fotografije, poslani pred [DATUM PREHODA]:</strong> so bili preneseni na strežnik terenske beležnice; izvirniki, vključno s fotografijami, ostanejo v sistemu NarcIS (Oraclova baza), samo za branje.</li>
+    <li><strong>Zapisi, obhodi in fotografije, poslani pred 15. oktobrom 2026:</strong> so bili preneseni na strežnik terenske beležnice; izvirniki, vključno s fotografijami, ostanejo v sistemu NarcIS (Oraclova baza), samo za branje.</li>
     <li><strong>Uporabniški računi</strong> in pravice ostanejo v sistemu NarcIS (&sect;&nbsp;2.1).</li>
   </ul>
 
