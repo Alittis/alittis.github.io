@@ -54,7 +54,10 @@ question in the item body. Done items stay below for traceability.
   - §2.9's backup sentence was wrong: it described a nightly backup with photos. Since D10, every run dumps
     records and walks without photo bytes, and each photo is copied to NarcIS once. Corrected on the branch at
     `938e2d1`, with the owner's wording.
-- **Open until T0:** fill in the four `[DATUM PREHODA]` placeholders on the branch, ~~re-check §2.1,
+- **2026-10-14: T0 is Thursday 15 October 2026, 08:00** (narcis-vibed NV-259). The branch is dated at `000226c`: *Zadnja
+  sprememba: 15. oktober 2026*, *Od 15. oktobra 2026*, *pred 15. oktobrom 2026*.
+- **Open until T0:** ~~fill in the four `[DATUM PREHODA]` placeholders on the branch~~ (done, `000226c`; the STAGED comment is
+  removed at the merge), ~~re-check §2.1,
   §2.9 (§2.10 before GHP-4) and §3 against what was built~~ (done 2026-10-14, above), merge to `main` and push
   together with the phone release (narcis-vibed OPERATIONS §21.9, T0.9). Any change to `main` before then is
   repeated on the branch. At the merge, keep `main`'s `project/BACKLOG.md`: the branch's copy is older.
