@@ -28,7 +28,13 @@ question in the item body. Done items stay below for traceability.
 - **Checked:** the headings run without gaps and every `&sect;` reference names an existing heading.
   Neither version mentions *zgodovinsk*, *Notranjsk* or *WordPress* any more.
 
-### GHP-3 🐞 The Terenska beležnica privacy policy is out of date, and the Postgres move changes it again — P1 — Doing
+### GHP-3 🐞 The Terenska beležnica privacy policy is out of date, and the Postgres move changes it again — P1 — Done (**post-cutover policy LIVE 2026-10-15**, `ecff07d`)
+
+- **2026-10-15 — published at the NV-259 T0 cutover.** After Play released `1.14.0 (24)` (08:44 local), branch
+  `ghp-3-post-cutover-policy` (`000226c`) was merged into `main` as `ecff07d`. Five conflicts in
+  `terenska-beleznica/privacy/index.html`, each `main`'s pre-cutover wording against the branch's post-cutover wording,
+  resolved hunk by hunk to the branch side (it already carried TB-49/TB-50 and GHP-4); the STAGED comment block removed;
+  `main`'s copy of this file kept. Pages served *Zadnja sprememba: 15. oktober 2026* ~45 s after the push.
 
 - **Problem:** `terenska-beleznica/privacy/index.html` was last changed on 20 May 2026. Since then
   the app has moved to token login (v1.2.0), gained record deletion, the Območja and Parcele
